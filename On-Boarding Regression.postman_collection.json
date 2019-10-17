@@ -1,0 +1,761 @@
+{
+	"info": {
+		"_postman_id": "dfcc9cac-d745-41a0-bd31-0a79e94331a3",
+		"name": "On-Boarding Regression",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "api/customers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4a39dbbd-023e-464f-9dce-63e3626d54c5",
+						"exec": [
+							"pm.test(\"Create Customer passed with 200 status code\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"success value check\", function () {\r",
+							"pm.expect(pm.response.json().success).to.equal(true);\r",
+							"});\r",
+							"if (response.success === true){\r",
+							"    console.log(\"CreateCustomer endpoint executed successfully\");\r",
+							"}\r",
+							"else{\r",
+							"console.log(\"CreateCustomer endpoint executed with failure\");\r",
+							"}\r",
+							"pm.test(\"Create Customer\", function () {\r",
+							"    pm.expect(pm.response.json()).to.include.keys(\"returnData\");\r",
+							"     \r",
+							"});\r",
+							"\r",
+							"let otCustomerStore = pm.response.json().returnData;\r",
+							"let otCustomerPass = otCustomerStore.otpToken;\r",
+							"\r",
+							"pm.globals.set('otpCustomerPass',otCustomerPass);\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d2eb3eec-ece4-4df8-9736-a3a65d1b4b69",
+						"exec": [
+							"// const loginRequest = {\r",
+							"//     url: \"https://accounts.google.com/signin/v2/identifier?continue=https%3A%2F%2Fmail.google.com%2Fmail%2F&service=mail&sacu=1&rip=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin\",\r",
+							"//     method: \"POST\",\r",
+							"//     body: {\r",
+							"//         mode: \"raw\",\r",
+							"//         raw: JSON.stringify({\r",
+							"//             email: 'acetesterjm@gmail.com',\r",
+							"//             password: 'Exce11ence'\r",
+							"//         })\r",
+							"//     }\r",
+							"// };\r",
+							"\r",
+							"// pm.sendRequest(loginRequest, function (err, response) {\r",
+							"//     const responseJSON = response.json();\r",
+							"//     pm.environment.set('otpToken', responseJSON.token);\r",
+							"//     console.log(err ? err : pm.environment.get('otpToken'));\r",
+							"// });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "api_key",
+						"value": "hd8hry8dz8c8uzw8azq6ddfc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"firstName\": \"{{firstName}}\",\r\n  \"middleInitial\": \"\",\r\n  \"lastName\": \"{{lastName}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"deviceID\": \"1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://gw.np30.acecashexpress.com/dev/v1/api/customers",
+					"protocol": "https",
+					"host": [
+						"gw",
+						"np30",
+						"acecashexpress",
+						"com"
+					],
+					"path": [
+						"dev",
+						"v1",
+						"api",
+						"customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "verify/createAccount",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2ef81ac0-3175-46a3-afea-623d83fcd8f5",
+						"exec": [
+							"pm.test(\"Verify Customer passed with 200 status code\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"success value check\", function () {\r",
+							"pm.expect(pm.response.json().success).to.equal(true);\r",
+							"});\r",
+							"if (response.success === true){\r",
+							"    console.log(\"Verify Customer endpoint executed successfully\");\r",
+							"}\r",
+							"else{\r",
+							"console.log(\"Verify Customer endpoint executed with failure\");\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "api_key",
+						"value": "hd8hry8dz8c8uzw8azq6ddfc",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"otpToken\": \"{{otpCustomerPass}}\",\r\n  \"otp\": \"62303\",\r\n  \"deviceID\": \"1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://gw.np30.acecashexpress.com/dev/v1/api/customers/verify/createAccount",
+					"protocol": "https",
+					"host": [
+						"gw",
+						"np30",
+						"acecashexpress",
+						"com"
+					],
+					"path": [
+						"dev",
+						"v1",
+						"api",
+						"customers",
+						"verify",
+						"createAccount"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createPassword",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "efd1b4d0-5bc0-49d5-b769-c68e8afeb7b4",
+						"exec": [
+							"pm.test(\"Create Password passed with 200 status code\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"success value check\", function () {\r",
+							"pm.expect(pm.response.json().success).to.equal(true);\r",
+							"});\r",
+							"if (response.success === true){\r",
+							"    console.log(\"Create Password endpoint executed successfully\");\r",
+							"}\r",
+							"else{\r",
+							"console.log(\"Create Password endpoint executed with failure\");\r",
+							"}\r",
+							"\r",
+							"\r",
+							"pm.test(\"Createpassword\", function () {\r",
+							"    pm.expect(pm.response.json()).to.include.keys(\"returnData\");\r",
+							"});\r",
+							"\r",
+							"let accessTokenCreatePasswordStore = pm.response.json().returnData;\r",
+							"let accessTokenCreatePasswordPass = accessTokenCreatePasswordStore.accessToken;\r",
+							"\r",
+							" pm.environment.set('accessTokenCreatePasswordPass',accessTokenCreatePasswordPass);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "api_key",
+						"value": "hd8hry8dz8c8uzw8azq6ddfc",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"otpToken\": \"{{otpCustomerPass}}\",\r\n  \"newPassword\": \"{{newPassword}}\",\r\n  \"clientID\": \"porte.mobile\",\r\n  \"deviceID\": \"1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://gw.np30.acecashexpress.com/dev/v1/api/customers/createPassword",
+					"protocol": "https",
+					"host": [
+						"gw",
+						"np30",
+						"acecashexpress",
+						"com"
+					],
+					"path": [
+						"dev",
+						"v1",
+						"api",
+						"customers",
+						"createPassword"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getcitiesbyzipcode",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessTokenCreatePasswordPass}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "api_key",
+						"value": "hd8hry8dz8c8uzw8azq6ddfc",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://gw.np30.acecashexpress.com/dev/v1/api/reference/citiesByZipCode?zipCode=75023",
+					"protocol": "https",
+					"host": [
+						"gw",
+						"np30",
+						"acecashexpress",
+						"com"
+					],
+					"path": [
+						"dev",
+						"v1",
+						"api",
+						"reference",
+						"citiesByZipCode"
+					],
+					"query": [
+						{
+							"key": "zipCode",
+							"value": "75023"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create address",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "88969364-d145-4135-832b-4e575eb13e25",
+						"exec": [
+							"pm.test(\"Create Customer passed with 200 status code\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"console.log(\"Address has been created\");\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessTokenCreatePasswordPass}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "api_key",
+						"value": "hd8hry8dz8c8uzw8azq6ddfc",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"address1\": \"{{address1}}\",\r\n  \"address2\": \"{[address2]}\",\r\n  \"city\": \"{{city}}\",\r\n  \"state\": \"{{state}}\",\r\n  \"zipCode\": \"{{zipCode}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://gw.np30.acecashexpress.com/dev/v1/api/customers/my/addresses",
+					"protocol": "https",
+					"host": [
+						"gw",
+						"np30",
+						"acecashexpress",
+						"com"
+					],
+					"path": [
+						"dev",
+						"v1",
+						"api",
+						"customers",
+						"my",
+						"addresses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "phones",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "32ebdb2a-3e17-469c-a4fc-d6d61aad1470",
+						"exec": [
+							"pm.test(\"Create Customer passed with 200 status code\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"success value check\", function () {\r",
+							"pm.expect(pm.response.json().success).to.equal(true);\r",
+							"});\r",
+							"if (response.success === true){\r",
+							"    console.log(\"Phone number entered successfully and optToken has been copied\");\r",
+							"}\r",
+							"else{\r",
+							"console.log(\"Phone number was NOT entered successfully and optToken has NOT been copied\");\r",
+							"}\r",
+							"pm.test(\"Enter Phone number\", function () {\r",
+							"    pm.expect(pm.response.json()).to.include.keys(\"returnData\");\r",
+							"     \r",
+							"});\r",
+							"\r",
+							"let otPhonestore = pm.response.json().returnData;\r",
+							"let otPhonepass = otPhonestore.otpToken;\r",
+							"\r",
+							"pm.globals.set('otPhonepass',otPhonepass);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessTokenCreatePasswordPass}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "api_key",
+						"value": "hd8hry8dz8c8uzw8azq6ddfc",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"phoneNumber\": \"{{phoneNumber}}\",\r\n  \"deviceId\": \"1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://gw.np30.acecashexpress.com/dev/v1/api/customers/my/phones",
+					"protocol": "https",
+					"host": [
+						"gw",
+						"np30",
+						"acecashexpress",
+						"com"
+					],
+					"path": [
+						"dev",
+						"v1",
+						"api",
+						"customers",
+						"my",
+						"phones"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Twilio api for otp - create phone",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ee245285-2302-4afa-98ae-b51412d6ba2d",
+						"exec": [
+							"const response = pm.response.json();",
+							"",
+							"const smsotp = response.messages[1].body.substring(48,52);",
+							"",
+							"pm.globals.set('createphoneotpcode',createphoneotpcode);",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "kTnbyv5SoNJc6oou4s9TnyNOzaS2dABK",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "SK848b59bc89c9511d50d78b36847a30b0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.twilio.com/2010-04-01/Accounts/AC71040483202d0cb1149222b630eb0c5b/Messages.json",
+					"protocol": "https",
+					"host": [
+						"api",
+						"twilio",
+						"com"
+					],
+					"path": [
+						"2010-04-01",
+						"Accounts",
+						"AC71040483202d0cb1149222b630eb0c5b",
+						"Messages.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create phone",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessTokenCreatePasswordPass}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "api_key",
+						"value": "hd8hry8dz8c8uzw8azq6ddfc",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"otpToken\": \"{{otPhonepass}}\",\r\n  \"otp\": \"{{createphoneotpcode}}\",\r\n  \"deviceID\": \"1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://gw.np30.acecashexpress.com/dev/v1/api/customers/verify/createPhone",
+					"protocol": "https",
+					"host": [
+						"gw",
+						"np30",
+						"acecashexpress",
+						"com"
+					],
+					"path": [
+						"dev",
+						"v1",
+						"api",
+						"customers",
+						"verify",
+						"createPhone"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post dueDiligence",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessTokenCreatePasswordPass}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"questionSetId\": 0,\r\n  \"answers\": [\r\n    {\r\n      \"questionId\": 0,\r\n      \"answerId\": 0\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://gw.np30.acecashexpress.com/dev/v1/api/customers/my/dueDiligence",
+					"protocol": "https",
+					"host": [
+						"gw",
+						"np30",
+						"acecashexpress",
+						"com"
+					],
+					"path": [
+						"dev",
+						"v1",
+						"api",
+						"customers",
+						"my",
+						"dueDiligence"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Options dueDiligence",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessTokenCreatePasswordPass}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "OPTIONS",
+				"header": [],
+				"url": {
+					"raw": "https://gw.np30.acecashexpress.com/dev/v1/api/customers/my/dueDiligence",
+					"protocol": "https",
+					"host": [
+						"gw",
+						"np30",
+						"acecashexpress",
+						"com"
+					],
+					"path": [
+						"dev",
+						"v1",
+						"api",
+						"customers",
+						"my",
+						"dueDiligence"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/my/submit",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "10c03f24-3acb-48fa-a3a5-cf9c3b3dd5cd",
+						"exec": [
+							"pm.test(\"Create Phone passed with 200 status code\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"success value check\", function () {\r",
+							"pm.expect(pm.response.json().success).to.equal(true);\r",
+							"});\r",
+							"if (response.success === true){\r",
+							"    console.log(\"Date of Birth and SSN entered successfully\");\r",
+							"}\r",
+							"else{\r",
+							"console.log(\"Date of Birth and SSN was NOT entered successfully\");\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessTokenCreatePasswordPass}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "api_key",
+						"value": "hd8hry8dz8c8uzw8azq6ddfc",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"dob\": \"{{dob}}\",\r\n  \"ssn\": \"{{ssn}}\"\r\n}"
+				},
+				"url": {
+					"raw": "https://gw.np30.acecashexpress.com/dev/v1/api/customers/my/submit",
+					"protocol": "https",
+					"host": [
+						"gw",
+						"np30",
+						"acecashexpress",
+						"com"
+					],
+					"path": [
+						"dev",
+						"v1",
+						"api",
+						"customers",
+						"my",
+						"submit"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
