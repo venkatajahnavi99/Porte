@@ -1,0 +1,128 @@
+{
+	"info": {
+		"_postman_id": "9e820011-5c44-43ac-b6b0-626ead067fc8",
+		"name": "Charity regression",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Charities",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "298740e391f79792c0c860bf433dde8c2b0e68f3a4a61709b5282f53b8d74154",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "api_key",
+						"value": "hd8hry8dz8c8uzw8azq6ddfc",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://gw.np30.acecashexpress.com/dev/v1/api/accounts/my/charities",
+					"protocol": "https",
+					"host": [
+						"gw",
+						"np30",
+						"acecashexpress",
+						"com"
+					],
+					"path": [
+						"dev",
+						"v1",
+						"api",
+						"accounts",
+						"my",
+						"charities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Charities",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "808a8070c4b23eb897a2f549f80de3ba522b2685c3c9ea9b99e6569186a470bd",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "api_key",
+						"value": "hd8hry8dz8c8uzw8azq6ddfc",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://gw.np30.acecashexpress.com/dev/v1/api/accounts/my/charities",
+					"protocol": "https",
+					"host": [
+						"gw",
+						"np30",
+						"acecashexpress",
+						"com"
+					],
+					"path": [
+						"dev",
+						"v1",
+						"api",
+						"accounts",
+						"my",
+						"charities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Remove Charities",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "api_key",
+						"value": "hd8hry8dz8c8uzw8azq6ddfc",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://gw.np30.acecashexpress.com/dev/v1/api/accounts/my/charities/{accountCharityToken}/remove",
+					"protocol": "https",
+					"host": [
+						"gw",
+						"np30",
+						"acecashexpress",
+						"com"
+					],
+					"path": [
+						"dev",
+						"v1",
+						"api",
+						"accounts",
+						"my",
+						"charities",
+						"{accountCharityToken}",
+						"remove"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
